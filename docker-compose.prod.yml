@@ -8,7 +8,7 @@ services:
     volumes:
       - city_orient_db_volume:/var/lib/postgresql/data
     env_file:
-      - ./backend/.env.local.db
+      - ./backend/.env.prod.db
 
   backend:
     build: ./backend
@@ -16,7 +16,7 @@ services:
       bash -c "sleep 5 &&
       python manage.py makemigrations &&
       python manage.py migrate &&
-      gunicorn --bind :8000 --reload city_orient_backend.wsgi:application"
+      gunicorn --bind :8000 city_orient_backend.wsgi:application"
     depends_on:
       - db
     volumes:
@@ -25,29 +25,23 @@ services:
       - nginx_network
       - db_network
     env_file:
-      - ./backend/.env.local
+      - ./backend/.env.prod
 
   frontend:
     build: ./frontend
-    command: npm run local
+    command: npm run prod
     depends_on:
       - backend
     networks:
       - nginx_network
-    volumes:
-      - ./frontend/src:/src
-    stdin_open: true
-    tty: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true
 
   nginx:
     image: nginx:1.13
     ports:
-      - 8080:8080
-      - 8081:8081
+      - 443:443
     volumes:
-      - ./nginx/local:/etc/nginx/conf.d
+      - ./nginx/prod:/etc/nginx/conf.d
+      - ./certs:/certs
     depends_on:
       - backend
     networks:
