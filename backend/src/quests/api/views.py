@@ -1,12 +1,10 @@
-from datetime import time, date, datetime
-
-from django.utils.timezone import utc
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
+from quests.api.permissions import IsAdminOrReadOnly, IsQuestMember
 from quests.api.serializers import QuestListSerializer, QuestDetailSerializer, \
     QuestStatisticListSerializer, QuestStatisticSerializer, QuestTaskSerializer
 from quests.models import Quest, TeamStatistic, TaskStatistic
-from quests.permissions import IsAdminOrReadOnly
 
 
 class QuestListView(generics.ListCreateAPIView):
@@ -26,11 +24,13 @@ class QuestDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class QuestStatisticDetailView(generics.RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Quest.objects.all()
     serializer_class = QuestStatisticListSerializer
 
 
 class QuestJoinView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Quest.objects.all()
     serializer_class = QuestStatisticSerializer
 
@@ -39,6 +39,7 @@ class QuestJoinView(generics.CreateAPIView):
 
 
 class QuestCompleteTaskView(generics.UpdateAPIView):
+    permission_classes = (IsQuestMember,)
     serializer_class = QuestTaskSerializer
 
     def get_object(self):

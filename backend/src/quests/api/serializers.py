@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import pytz
 
-from pytz import utc
 from rest_framework import serializers
 
 from quests.models import Quest, Task, Answer, TeamStatistic, TaskStatistic

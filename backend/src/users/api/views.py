@@ -1,9 +1,9 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 
+from users.api.permissions import IsSuperuser
 from users.api.serializerts import QuestMakerSerializer, TeamSerializer
 from users.models import User
-from users.permissions import IsSuperuser
 
 
 class QuestMakerListView(generics.ListCreateAPIView):
