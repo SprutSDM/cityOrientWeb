@@ -88,7 +88,7 @@ class QuestStatisticListSerializer(serializers.ModelSerializer):
         fields = ['teams_statistic']
 
 
-class QuestTaskSerializer(serializers.ModelSerializer):
+class TaskStatisticSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskStatistic

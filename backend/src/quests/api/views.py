@@ -1,9 +1,10 @@
 from rest_framework import generics
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from quests.api.permissions import IsAdminOrReadOnly, IsQuestMember
 from quests.api.serializers import QuestListSerializer, QuestDetailSerializer, \
-    QuestStatisticListSerializer, QuestStatisticSerializer, QuestTaskSerializer
+    QuestStatisticListSerializer, QuestStatisticSerializer, TaskStatisticSerializer
 from quests.models import Quest, TeamStatistic, TaskStatistic
 
 
@@ -38,10 +39,9 @@ class QuestJoinView(generics.CreateAPIView):
         serializer.save(team=self.request.user, quest_id=self.kwargs['pk'])
 
 
-class QuestCompleteTaskView(generics.UpdateAPIView):
+class TaskCompleteView(generics.UpdateAPIView):
     permission_classes = (IsQuestMember,)
-    serializer_class = QuestTaskSerializer
+    serializer_class = TaskStatisticSerializer
 
     def get_object(self):
-        team_statistic = TeamStatistic.objects.filter(quest=self.kwargs['pk'], team=self.request.user).first()
-        return TaskStatistic.objects.filter(task_id=self.kwargs['task_id'], team_statistic=team_statistic).first()
+        return get_object_or_404(TaskStatistic.objects.all(), task=self.kwargs['pk'])
