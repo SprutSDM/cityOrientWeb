@@ -1,8 +1,11 @@
+from datetime import time, date, datetime
+
+from django.utils.timezone import utc
 from rest_framework import generics
 
-from quests.api.serializers import QuestListSerializer, QuestDetailSerializer, TeamStatisticListSerializer, \
-    QuestStatisticListSerializer, QuestStatisticSerializer
-from quests.models import Quest
+from quests.api.serializers import QuestListSerializer, QuestDetailSerializer, \
+    QuestStatisticListSerializer, QuestStatisticSerializer, QuestTaskSerializer
+from quests.models import Quest, TeamStatistic, TaskStatistic
 from quests.permissions import IsAdminOrReadOnly
 
 
@@ -33,3 +36,11 @@ class QuestJoinView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(team=self.request.user, quest_id=self.kwargs['pk'])
+
+
+class QuestCompleteTaskView(generics.UpdateAPIView):
+    serializer_class = QuestTaskSerializer
+
+    def get_object(self):
+        team_statistic = TeamStatistic.objects.filter(quest=self.kwargs['pk'], team=self.request.user).first()
+        return TaskStatistic.objects.filter(task_id=self.kwargs['task_id'], team_statistic=team_statistic).first()

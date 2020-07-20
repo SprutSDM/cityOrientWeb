@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:pk>/', views.QuestDetailView.as_view(), name='quest-detail'),
     path('<int:pk>/statistic', views.QuestStatisticDetailView.as_view(), name="quest-statistic"),
     path('<int:pk>/join', views.QuestJoinView.as_view(), name="quest-join"),
+    path('<int:pk>/task/<int:task_id>', views.QuestCompleteTaskView.as_view(), name="complete-task")
 ]

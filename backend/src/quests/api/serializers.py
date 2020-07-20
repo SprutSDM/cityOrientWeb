@@ -1,3 +1,7 @@
+from datetime import datetime, timedelta
+import pytz
+
+from pytz import utc
 from rest_framework import serializers
 
 from quests.models import Quest, Task, Answer, TeamStatistic, TaskStatistic
@@ -83,3 +87,16 @@ class QuestStatisticListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
         fields = ['teams_statistic']
+
+
+class QuestTaskSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskStatistic
+        fields = ['id', 'tip_1_used', 'tip_2_used', 'lead_time']
+
+    def update(self, instance, validated_data):
+        date = datetime.now(tz=pytz.utc) + timedelta(hours=3) - instance.team_statistic.quest.start_time
+        instance.lead_time = (datetime.min + date).time()
+        instance.save()
+        return instance
