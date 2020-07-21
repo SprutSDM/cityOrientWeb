@@ -12,8 +12,5 @@ class IsAdminOrReadOnly(IsAdminUser):
 
 class IsQuestMember(BasePermission):
     def has_permission(self, request, view):
-        team_statistic = TeamStatistic.objects.filter(quest=view.kwargs['pk'])
-        if not team_statistic.exists():
-            # Model doesn't exists, it's ok
-            return True
-        return team_statistic.first().team == request.user
+        team_statistic = TeamStatistic.objects.filter(quest=view.kwargs['pk'], team=request.user)
+        return team_statistic.exists()

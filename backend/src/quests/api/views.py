@@ -39,6 +39,14 @@ class QuestJoinView(generics.CreateAPIView):
         serializer.save(team=self.request.user, quest_id=self.kwargs['pk'])
 
 
+class QuestLeaveView(generics.DestroyAPIView):
+    permission_classes = (IsQuestMember,)
+    queryset = Quest.objects.all()
+
+    def get_object(self):
+        return get_object_or_404(TeamStatistic.objects.all(), team=self.request.user, quest_id=self.kwargs['pk'])
+
+
 class TaskCompleteView(generics.UpdateAPIView):
     permission_classes = (IsQuestMember,)
     serializer_class = TaskStatisticSerializer
