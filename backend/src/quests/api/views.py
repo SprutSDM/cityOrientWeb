@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from quests.api.permissions import IsAdminOrReadOnly, IsQuestMember
 from quests.api.serializers import QuestListSerializer, QuestDetailSerializer, \
-    QuestStatisticListSerializer, QuestStatisticSerializer, TaskStatisticSerializer
+    QuestStatisticListSerializer, QuestStatisticSerializer, TaskStatisticSerializer, UseTipSerializer
 from quests.models import Quest, TeamStatistic, TaskStatistic
 
 
@@ -45,3 +45,14 @@ class TaskCompleteView(generics.UpdateAPIView):
 
     def get_object(self):
         return get_object_or_404(TaskStatistic.objects.all(), task=self.kwargs['pk'])
+
+
+class UseTipView(generics.UpdateAPIView):
+    permission_classes = (IsQuestMember,)
+    serializer_class = UseTipSerializer
+
+    def get_object(self):
+        return get_object_or_404(TaskStatistic.objects.all(), task=self.kwargs['pk'])
+
+    def perform_update(self, serializer):
+        serializer.save(tip_number=self.kwargs['tip_number'])

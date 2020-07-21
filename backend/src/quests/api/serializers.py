@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import pytz
 
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from quests.models import Quest, Task, Answer, TeamStatistic, TaskStatistic
 from users.api.serializerts import TeamSerializer
@@ -89,7 +90,6 @@ class QuestStatisticListSerializer(serializers.ModelSerializer):
 
 
 class TaskStatisticSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = TaskStatistic
         fields = ['id', 'tip_1_used', 'tip_2_used', 'lead_time']
@@ -97,5 +97,22 @@ class TaskStatisticSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         date = datetime.now(tz=pytz.utc) + timedelta(hours=3) - instance.team_statistic.quest.start_time
         instance.lead_time = (datetime.min + date).time()
+        instance.save()
+        return instance
+
+
+class UseTipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskStatistic
+        fields = ['id', 'tip_1_used', 'tip_2_used', 'lead_time']
+
+    def update(self, instance, validated_data):
+        tip_number = validated_data["tip_number"]
+        if tip_number == 0:
+            instance.tip_1_used = True
+        elif tip_number == 1:
+            instance.tip_2_used = True
+        else:
+            raise ValidationError(detail="Given invalid tip number")
         instance.save()
         return instance
