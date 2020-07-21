@@ -33,6 +33,7 @@ class Answer(models.Model):
 class TeamStatistic(models.Model):
     team = models.OneToOneField(User, on_delete=models.CASCADE)
     quest = models.ForeignKey(Quest, on_delete=models.CASCADE, related_name='teams_statistic')
+    first_task = models.IntegerField(default=0)
 
 
 class TaskStatistic(models.Model):

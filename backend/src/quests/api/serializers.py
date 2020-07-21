@@ -70,12 +70,13 @@ class QuestStatisticSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TeamStatistic
-        fields = ['id', 'team', 'quest', 'tasks_statistic']
-        read_only_fields = ['id', 'team', 'quest', 'tasks_statistic']
+        fields = ['id', 'team', 'quest', 'tasks_statistic', 'first_task']
+        read_only_fields = ['id', 'team', 'quest', 'tasks_statistic', 'first_task']
 
     def create(self, validated_data):
-        team_statistic = TeamStatistic.objects.create(**validated_data)
         tasks = Task.objects.filter(quest_id=validated_data['quest_id'])
+        first_task = TeamStatistic.objects.filter(quest=validated_data['quest_id']).count() % tasks.count()
+        team_statistic = TeamStatistic.objects.create(**validated_data, first_task=first_task)
         for task in tasks:
             TaskStatistic.objects.create(task=task, team_statistic=team_statistic)
         return team_statistic
