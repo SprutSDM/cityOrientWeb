@@ -2,8 +2,8 @@
     <v-app id="inspire">
         <router-view name="header"/>
         <v-main>
-            <v-container fluid>
-                <router-view/>
+            <v-container style="height: 100%">
+                <router-view></router-view>
             </v-container>
         </v-main>
     </v-app>
