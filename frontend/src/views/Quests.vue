@@ -18,7 +18,7 @@
                bottom
                right
                fab>
-            <v-icon>add</v-icon>
+            <v-icon>mdi-plus</v-icon>
         </v-btn>
     </div>
 </template>

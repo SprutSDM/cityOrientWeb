@@ -10,7 +10,7 @@
             <v-list>
                 <v-list-item>
                     <v-list-item-icon>
-                        <v-icon>map</v-icon>
+                        <v-icon>mdi-map</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>{{ quest.place }}</v-list-item-title>
@@ -19,7 +19,7 @@
                 </v-list-item>
                 <v-list-item>
                     <v-list-item-icon>
-                        <v-icon>not_listed_location</v-icon>
+                        <v-icon>mdi-map-marker-multiple</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>{{ quest.place }}</v-list-item-title>
@@ -28,7 +28,7 @@
                 </v-list-item>
                 <v-list-item>
                     <v-list-item-icon>
-                        <v-icon>event</v-icon>
+                        <v-icon>mdi-calendar</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>{{ dateStart }}</v-list-item-title>
@@ -37,7 +37,7 @@
                 </v-list-item>
                 <v-list-item>
                     <v-list-item-icon>
-                        <v-icon>timelapse</v-icon>
+                        <v-icon>mdi-timelapse</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>{{ duration }}</v-list-item-title>

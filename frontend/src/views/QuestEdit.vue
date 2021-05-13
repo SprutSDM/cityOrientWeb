@@ -12,12 +12,12 @@
                             <v-card-text>
                                 <v-text-field v-model="quest.title"
                                               label="Название"
-                                              prepend-icon="title"
+                                              prepend-icon="mdi-format-title"
                                               required
                                               :rules="rules"/>
                                 <v-text-field v-model="quest.place"
                                               label="Место проведения"
-                                              prepend-icon="map"
+                                              prepend-icon="mdi-map"
                                               required
                                               :rules="rules"/>
                                 <v-menu ref="date_menu"
@@ -30,7 +30,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field v-model="quest.date"
                                                       label="Время старта"
-                                                      prepend-icon="event"
+                                                      prepend-icon="mdi-calendar"
                                                       readonly
                                                       v-bind="attrs"
                                                       v-on="on"
@@ -56,7 +56,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field v-model="quest.start_time"
                                                       label="Время начала"
-                                                      prepend-icon="access_time"
+                                                      prepend-icon="mdi-clock-outline"
                                                       readonly
                                                       v-bind="attrs"
                                                       v-on="on"
@@ -82,7 +82,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field v-model="quest.duration"
                                                       label="Предолжительность"
-                                                      prepend-icon="timelapse"
+                                                      prepend-icon="mdi-timelapse"
                                                       readonly
                                                       v-bind="attrs"
                                                       v-on="on"
@@ -98,14 +98,14 @@
                                 </v-menu>
                                 <v-textarea label="Приветственный текст"
                                             v-model="quest.welcome_text"
-                                            prepend-icon="emoji_people"
+                                            prepend-icon="mdi-text"
                                             rows="2"
                                             hint="Будет показан участникам во время ожидания старта"
                                             required
                                             :rules="rules"/>
                                 <v-textarea label="Прощальный текст"
                                             v-model="quest.farewell_text"
-                                            prepend-icon="emoji_people"
+                                            prepend-icon="mdi-text"
                                             rows="2"
                                             hint="Будет показан участникам по окончанию квеста"
                                             required
@@ -122,7 +122,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field v-model="quest.penalty_1"
                                                       label="Штрафное время за подсказку №1"
-                                                      prepend-icon="timer"
+                                                      prepend-icon="mdi-timer-outline"
                                                       readonly
                                                       v-bind="attrs"
                                                       v-on="on"
@@ -148,7 +148,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field v-model="quest.penalty_2"
                                                       label="Штрафное время за подсказку №1"
-                                                      prepend-icon="timer"
+                                                      prepend-icon="mdi-timer-outline"
                                                       readonly
                                                       v-bind="attrs"
                                                       v-on="on"
@@ -170,39 +170,39 @@
                                     <v-expansion-panel-header>
                                         {{ index + 1 }}. {{ task.title }}
                                         <template v-slot:actions>
-                                            <v-icon>keyboard_arrow_down</v-icon>
+                                            <v-icon>mdi-chevron-down</v-icon>
                                         </template>
                                     </v-expansion-panel-header>
                                     <v-expansion-panel-content>
                                         <v-text-field v-model="task.title"
                                                       label="Название"
-                                                      prepend-icon="title"
+                                                      prepend-icon="mdi-format-title"
                                                       required
                                                       hint="Используется только в админ панеле"
                                                       :rules="rules"/>
                                         <v-text-field v-model="task.content"
                                                       label="Вопрос"
-                                                      prepend-icon="live_help"
+                                                      prepend-icon="mdi-map-marker-question"
                                                       required
                                                       :rules="rules"/>
                                         <v-combobox v-model="task.answers"
                                                     label="Ответы"
                                                     multiple
-                                                    prepend-icon="spellcheck"
+                                                    prepend-icon="mdi-spellcheck"
                                                     hide-selected
                                                     hint="Здесь необходимо перечислить все возможные варианты ответов"
                                                     chips/>
                                         <v-text-field v-model="task.tip_1"
                                                       label="Подсказка №1"
-                                                      prepend-icon="emoji_objects"
+                                                      prepend-icon="mdi-lightbulb"
                                                       hint="Если поле пустое, то участник не увидит подсказку"/>
                                         <v-text-field v-model="task.tip_2"
                                                       label="Подсказка №2"
-                                                      prepend-icon="emoji_objects"
+                                                      prepend-icon="mdi-lightbulb"
                                                       hint="Если поле пустое, то участник не увидит подсказку"/>
                                         <v-row class="justify-center">
                                             <v-btn text small color="error" @click="removeTask(index)">
-                                                <v-icon small>delete_forever</v-icon>
+                                                <v-icon small>mdi-delete-forever</v-icon>
                                                 Удалить задание
                                             </v-btn>
                                         </v-row>
@@ -212,8 +212,8 @@
                             </v-expansion-panels>
                             <v-container>
                                 <v-row class="justify-center">
-                                    <v-btn rounded class="accent" @click="createNewTask()">
-                                        <v-icon left>add</v-icon>
+                                    <v-btn rounded class="accent ma-2" @click="createNewTask()">
+                                        <v-icon left>mdi-plus</v-icon>
                                         Добавить
                                     </v-btn>
                                 </v-row>

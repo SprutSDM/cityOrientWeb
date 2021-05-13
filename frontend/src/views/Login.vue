@@ -10,13 +10,13 @@
                         <v-text-field v-model="username"
                                       name="login"
                                       label="Логин"
-                                      prepend-icon="person"
+                                      prepend-icon="mdi-account"
                                       required
                                       :rules="rules"/>
                         <v-text-field v-model="password"
                                       name="password"
-                                      prepend-icon="lock"
-                                      :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                                      prepend-icon="mdi-lock"
+                                      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                       :rules="rules"
                                       :type="showPassword ? 'text' : 'password'"
                                       label="Пароль"
