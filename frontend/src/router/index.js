@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Quests from '../views/Quests.vue'
-import QuestDetail from "../views/QuestEdit";
-import Teams from "../views/Teams";
+import Login from '../views/login/LoginVue.vue'
+import Quests from '../views/quests/QuestsVue.vue'
+import QuestEdit from "../views/questedit/QuestEditVue";
+import Teams from "../views/teams/Teams";
 import MainNavbar from "../layout/MainNavbar";
 import LoginNavbar from "../layout/LoginNavbar";
-import Statistic from "../views/Statistic";
+import Statistic from "../views/statistic/StatisticVue";
 
 Vue.use(VueRouter)
 
@@ -28,12 +28,12 @@ const routes = [
     {
         path: '/quests/:id',
         name: 'editQuest',
-        components: { default: QuestDetail, header: MainNavbar }
+        components: { default: QuestEdit, header: MainNavbar }
     },
     {
         path: '/createQuest',
         name: 'createQuest',
-        components: { default: QuestDetail, header: MainNavbar }
+        components: { default: QuestEdit, header: MainNavbar }
     },
     {
         path: '/teams',

@@ -238,10 +238,10 @@
 </template>
 
 <script>
-    import {httpClient} from "../api/httpClient";
+    import {httpClient} from "../../api/httpClient";
 
     export default {
-        name: "QuestDetail",
+        name: "QuestEdit",
         data: () => ({
             valid: false,
             date_menu: false,

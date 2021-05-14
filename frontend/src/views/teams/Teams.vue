@@ -53,7 +53,7 @@
                         <v-container>
                             <v-form v-model="valid">
                                 <v-text-field v-model="password"
-                                              :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                                              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                               :rules="rules"
                                               :type="showPassword ? 'text' : 'password'"
                                               :label="passwordTitle"
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-    import {httpClient} from "../api/httpClient";
+    import {httpClient} from "../../api/httpClient";
 
     export default {
         data() {

@@ -34,9 +34,9 @@
 </template>
 
 <script>
-    import {httpClient} from "../api/httpClient"
-    import {TokenStorage} from "../api/tokenStorage";
-    import router from "../router";
+    import {httpClient} from "../../api/httpClient"
+    import {TokenStorage} from "../../api/tokenStorage";
+    import router from "../../router";
 
     export default {
         name: "Login",

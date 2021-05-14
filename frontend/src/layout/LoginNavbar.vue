@@ -1,7 +1,7 @@
 <template>
     <v-app-bar dark color="primary" fixed app>
         <v-toolbar-title>
-            <span>Неизвестный питер</span>
+            <span>Неизвестный Питер</span>
         </v-toolbar-title>
     </v-app-bar>
 </template>

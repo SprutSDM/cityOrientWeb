@@ -8,7 +8,7 @@
                    xl="2"
                    v-for="(quest, index) in quests"
                    :key="index">
-                <quest :quest="quest"/>
+                <quest-card :quest="quest"/>
             </v-col>
         </v-row>
         <v-btn class="accent"
@@ -24,8 +24,8 @@
 </template>
 
 <script>
-    import Quest from "../components/Quest";
-    import {httpClient} from "../api/httpClient";
+    import QuestCard from "./QuestCard";
+    import {httpClient} from "../../api/httpClient";
 
     export default {
         name: "quests",
@@ -35,7 +35,7 @@
             }
         },
         components: {
-            Quest
+            QuestCard
         },
         methods: {
             createNewQuest() {

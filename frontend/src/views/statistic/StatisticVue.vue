@@ -1,6 +1,6 @@
 <template>
-    <v-row align="start" justify="center">
-        <v-col cols="12" sm="12" md="11" lg="10" xl="9">
+    <v-row ustify="center">
+        <v-col cols="12">
             <v-card>
                 <v-toolbar color="primary" dark flat>
                     <v-toolbar-title>Статистика квеста</v-toolbar-title>
@@ -18,8 +18,8 @@
             <div class="text-center pt-2">
                 <v-pagination v-model="page"
                               :length="pageCount"
-                              prev-icon="keyboard_arrow_left"
-                              next-icon="keyboard_arrow_right"
+                              prev-icon="mdi-chevron-left"
+                              next-icon="mdi-chevron-right"
                               color="accent"
                               circle/>
             </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import {httpClient} from "../api/httpClient";
+    import {httpClient} from "../../api/httpClient";
 
     export default {
         name: "Statistic",

@@ -57,7 +57,7 @@
 
 <script>
     export default {
-        name: 'Quest',
+        name: 'QuestCard',
         props: ['quest'],
         methods: {
             edit(id) {
