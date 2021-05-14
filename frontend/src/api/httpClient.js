@@ -4,7 +4,7 @@ import Promise from 'es6-promise'
 import router from "../router";
 
 const BASE_URL = `/api/`;
-const REFRESH_TOKEN_ROUTE = '/token/refresh';
+const REFRESH_TOKEN_ROUTE = '/users/token/refresh';
 
 let httpClientInstance = axios.create({
     baseURL: BASE_URL,

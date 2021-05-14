@@ -51,7 +51,7 @@
         }),
         methods: {
             login() {
-                httpClient.post('/auth', {
+                httpClient.post('/users/auth', {
                     username: this.username,
                     password: this.password
                 })
