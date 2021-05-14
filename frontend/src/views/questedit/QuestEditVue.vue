@@ -224,7 +224,10 @@
 
                 <v-divider/>
                 <v-card-actions>
-                    <v-btn color="error" @click="remove()">
+                    <v-btn v-if="isCreateQuest" text color="error" @click="cancel()">
+                        Отменить
+                    </v-btn>
+                    <v-btn v-else color="error" text @click="remove()">
                         Удалить
                     </v-btn>
                     <v-spacer/>
@@ -272,12 +275,15 @@
                         this.$router.push({name: 'quests'})
                     });
             },
+            cancel() {
+                this.$router.push({name: 'quests'})
+            },
             save() {
                 const questForSave = Object.assign({}, this.quest);
                 const start_time = `${this.quest.date}T${this.quest.start_time}:00Z`;
                 delete questForSave.date;
                 questForSave.start_time = start_time;
-                if (this.$route.params.id !== undefined) {
+                if (!this.isCreateQuest()) {
                     const questId = this.$route.params.id;
                     httpClient.put(`/quests/${questId}/`, questForSave)
                         .then((response) => {
@@ -311,8 +317,13 @@
                 this.quest.tasks.splice(index, 1);
             },
         },
+        computed: {
+            isCreateQuest() {
+                return this.$route.params.id === undefined
+            }
+        },
         mounted() {
-            if (this.$route.params.id !== undefined) {
+            if (!this.isCreateQuest) {
                 const questId = this.$route.params.id;
                 console.log("request quest " + questId);
                 httpClient.get(`/quests/${questId}/`)
