@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save()
 
-    def create_quest_maker(self, username: str, password: str):
+    def create_admin(self, username: str, password: str):
         if username.lower().startswith("team"):
             ValueError("The username field must not starts with 'team'.")
         user = self.model(username=username)

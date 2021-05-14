@@ -2,14 +2,14 @@ from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 
 from users.api.permissions import IsSuperuser
-from users.api.serializerts import QuestMakerSerializer, TeamSerializer
+from users.api.serializerts import AdminSerializer, TeamSerializer
 from users.models import User
 
 
-class QuestMakerListView(generics.ListCreateAPIView):
+class AdminListView(generics.ListCreateAPIView):
     permission_classes = (IsSuperuser, )
     queryset = User.objects.filter(is_staff=True, is_superuser=False)
-    serializer_class = QuestMakerSerializer
+    serializer_class = AdminSerializer
 
 
 class TeamListView(generics.ListCreateAPIView):

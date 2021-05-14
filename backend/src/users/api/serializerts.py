@@ -4,7 +4,7 @@ from quests.models import TeamStatistic, Quest
 from users.models import User
 
 
-class QuestMakerSerializer(serializers.ModelSerializer):
+class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'password']
@@ -13,7 +13,7 @@ class QuestMakerSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        return User.objects.create_quest_maker(
+        return User.objects.create_admin(
             username=validated_data['username'],
             password=validated_data['password']
         )
