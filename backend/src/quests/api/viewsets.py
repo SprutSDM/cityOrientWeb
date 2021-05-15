@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import pytz
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -44,6 +45,19 @@ class TaskStatisticViewSet(viewsets.ModelViewSet):
         task_statistic = self.get_object()
         date = datetime.now(tz=pytz.utc) + timedelta(hours=3) - task_statistic.team_statistic.quest.start_time
         task_statistic.lead_time = (datetime.min + date).time()
+        task_statistic.save()
+        serializer = self.get_serializer(task_statistic)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def use_tip(self, request, pk=None, tip_number=None):
+        task_statistic = self.get_object()
+        if tip_number == 0:
+            task_statistic.tip_1_used = True
+        elif tip_number == 1:
+            task_statistic.tip_2_used = True
+        else:
+            raise ValidationError(detail="Given invalid tip number")
         task_statistic.save()
         serializer = self.get_serializer(task_statistic)
         return Response(serializer.data)

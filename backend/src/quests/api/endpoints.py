@@ -10,5 +10,5 @@ urlpatterns = [
     path('<int:pk>/join', viewsets.QuestViewSet.as_view({'post': 'join'}), name="quest-join"),
     path('<int:pk>/leave', viewsets.QuestViewSet.as_view({'post': 'leave'}), name="quest-leave"),
     path('task/<int:pk>/complete', viewsets.TaskStatisticViewSet.as_view({'post': 'complete'}), name="complete-task"),
-    path('task/<int:pk>/use_tip/<int:tip_number>', views.UseTipView.as_view(), name="use-tip")
+    path('task/<int:pk>/use_tip/<int:tip_number>', viewsets.TaskStatisticViewSet.as_view({'post': 'use_tip'}), name="use-tip")
 ]
