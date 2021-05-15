@@ -1,14 +1,19 @@
+from datetime import datetime, timedelta
+
+import pytz
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from quests.api.serializers import QuestDetailSerializer
+from quests.api.serializers import QuestDetailSerializer, TaskStatisticSerializer
 from quests.models import Quest, Task, TeamStatistic, TaskStatistic
 
 
 class QuestViewSet(viewsets.ModelViewSet):
     queryset = Quest.objects.all()
     serializer_class = QuestDetailSerializer
+    permission_classes = (IsAuthenticated, )
 
     @action(detail=True, methods=['post'])
     def join(self, request, pk=None):
@@ -26,4 +31,19 @@ class QuestViewSet(viewsets.ModelViewSet):
         quest = self.get_object()
         quest.teams_statistic.filter(team=self.request.user).delete()
         serializer = self.get_serializer(quest)
+        return Response(serializer.data)
+
+
+class TaskStatisticViewSet(viewsets.ModelViewSet):
+    queryset = TaskStatistic.objects.all()
+
+    serializer_class = TaskStatisticSerializer
+
+    @action(detail=True, methods=['post'])
+    def complete(self, request, pk=None):
+        task_statistic = self.get_object()
+        date = datetime.now(tz=pytz.utc) + timedelta(hours=3) - task_statistic.team_statistic.quest.start_time
+        task_statistic.lead_time = (datetime.min + date).time()
+        task_statistic.save()
+        serializer = self.get_serializer(task_statistic)
         return Response(serializer.data)
