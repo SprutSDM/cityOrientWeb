@@ -283,7 +283,7 @@
                 const start_time = `${this.quest.date}T${this.quest.start_time}:00Z`;
                 delete questForSave.date;
                 questForSave.start_time = start_time;
-                if (!this.isCreateQuest()) {
+                if (!this.isCreateQuest) {
                     const questId = this.$route.params.id;
                     httpClient.put(`/quests/${questId}/`, questForSave)
                         .then((response) => {

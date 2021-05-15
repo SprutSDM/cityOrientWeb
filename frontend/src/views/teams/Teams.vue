@@ -19,25 +19,25 @@
                               loading-text="Loading... Please wait">
                     <template v-slot:item.actions="{ item }">
                         <v-btn icon @click="editTeam(item)">
-                            <v-icon>edit</v-icon>
+                            <v-icon>mdi-pencil</v-icon>
                         </v-btn>
                         <v-btn icon @click="deleteTeam(item)">
-                            <v-icon>delete</v-icon>
+                            <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </template>
                     <template v-slot:item.quest="{ item }">
                         <span v-if="item.quest !== null">
                             {{ item.quest.title }}
                             <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon small @click="navigateToStatistic(item.quest.id)" v-bind="attrs" v-on="on">
-                                    <v-icon small color="accent">
-                                        open_in_new
-                                    </v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Перейти к статистике</span>
-                        </v-tooltip>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon small @click="navigateToStatistic(item.quest.id)" v-bind="attrs" v-on="on">
+                                        <v-icon small color="accent">
+                                            mdi-open-in-new
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Перейти к статистике</span>
+                            </v-tooltip>
                         </span>
                         <span v-else>-</span>
                     </template>
