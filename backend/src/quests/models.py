@@ -8,6 +8,7 @@ class Quest(models.Model):
     place = models.CharField(max_length=200)
     start_time = models.DateTimeField()
     duration = models.TimeField()
+    preview = models.ImageField(upload_to='quest_previews', null=True)
     welcome_text = models.CharField(max_length=1000)
     farewell_text = models.CharField(max_length=1000)
     penalty_1 = models.TimeField()

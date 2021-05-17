@@ -1,3 +1,4 @@
+from django.conf.global_settings import MEDIA_URL
 from rest_framework import serializers
 
 from quests.models import Quest, Task, Answer, TeamStatistic, TaskStatistic
@@ -33,16 +34,27 @@ class QuestDetailSerializer(serializers.ModelSerializer):
         return quest_instance
 
     def update(self, instance, validated_data):
-        tasks = validated_data.pop('tasks')
-        instance.tasks.all().delete()
-        self.recreate_tasks(instance, tasks=tasks)
+        if 'tasks' in validated_data:
+            tasks = validated_data.pop('tasks')
+            instance.tasks.all().delete()
+            self.recreate_tasks(instance, tasks=tasks)
         return super().update(instance, validated_data)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['preview'] = MEDIA_URL + data['preview']
+        return data
 
 
 class QuestListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ['id', 'title', 'place', 'start_time', 'duration']
+        fields = ['id', 'title', 'place', 'start_time', 'duration', 'preview']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['preview'] = MEDIA_URL + data['preview']
+        return data
 
 
 class TaskStatisticListSerializer(serializers.ModelSerializer):

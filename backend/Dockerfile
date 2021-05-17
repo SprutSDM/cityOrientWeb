@@ -11,5 +11,6 @@ RUN pip install -r /config/requirements/base.txt
 RUN mkdir /src
 
 COPY . /src
+COPY static /static
 
 WORKDIR /src

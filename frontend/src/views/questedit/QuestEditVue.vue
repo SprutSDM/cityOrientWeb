@@ -2,9 +2,18 @@
     <v-row align="start" justify="center">
         <v-col cols="12" sm="8" md="6" lg="5" xl="4">
             <v-card class="elevation-12">
-                <v-img src="http://scipy-lectures.org/_images/face.png" :aspect-ratio="16/9"/>
+                <v-img
+                    :src="imageUrl"
+                    :aspect-ratio="16/9"
+                    class="clickable"
+                    @click="onUploaderClicked"
+                />
+                <input ref="uploader"
+                           class="d-none"
+                           type="file"
+                           accept="image/*"
+                           @change="onSelect">
                 <v-form v-model="valid">
-
                     <v-tabs fixed-tabs>
                         <v-tab>Описание</v-tab>
                         <v-tab>Задания</v-tab>
@@ -147,7 +156,7 @@
                                         min-width="290px">
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field v-model="quest.penalty_2"
-                                                      label="Штрафное время за подсказку №1"
+                                                      label="Штрафное время за подсказку №2"
                                                       prepend-icon="mdi-timer-outline"
                                                       readonly
                                                       v-bind="attrs"
@@ -252,9 +261,12 @@
             duration_menu: false,
             penalty_time_menu_1: false,
             penalty_time_menu_2: false,
+            image: null,
+            imageUrl: null,
             quest: {
                 title: '',
                 place: '',
+                preview: null,
                 date: new Date().toISOString().substr(0, 10),
                 start_time: null,
                 duration: null,
@@ -278,6 +290,23 @@
             cancel() {
                 this.$router.push({name: 'quests'})
             },
+            savePreview(doOnSuccess) {
+                if (this.image === null) {
+                    doOnSuccess()
+                    return
+                }
+                const questId = this.$route.params.id
+                let formData = new FormData()
+                formData.append("preview", this.image)
+                httpClient.patch(`/quests/${questId}/`, formData, {
+                    headers: {'Content-Type': `multipart/form-data;`}
+                }).then(() => {
+                    console.log('preview has been saved!')
+                    doOnSuccess()
+                }).catch(() => {
+                    console.log("preview hasn't saved")
+                })
+            },
             save() {
                 const questForSave = Object.assign({}, this.quest);
                 const start_time = `${this.quest.date}T${this.quest.start_time}:00Z`;
@@ -288,6 +317,7 @@
                     httpClient.put(`/quests/${questId}/`, questForSave)
                         .then((response) => {
                             console.log(`save quest by Id: response ${response}`)
+                            this.savePreview(() => {})
                         })
                         .catch((error) => {
                             console.log(`save quest by Id: error ${error}`)
@@ -296,7 +326,9 @@
                     httpClient.post(`/quests/`, questForSave)
                         .then((response) => {
                             console.log(`save quest: response ${response}`);
-                            this.$router.push({name: 'editQuest', params: {id: response.data.id}})
+                            this.savePreview(() => {
+                                this.$router.push({name: 'editQuest', params: {id: response.data.id}})
+                            })
                         })
                         .catch((error) => {
                             console.log(`save quest: error ${error}`)
@@ -316,6 +348,17 @@
             removeTask(index) {
                 this.quest.tasks.splice(index, 1);
             },
+            onUploaderClicked() {
+                window.addEventListener('focus', () => {
+                    this.isSelecting = false
+                }, { once: true })
+
+                this.$refs.uploader.click()
+            },
+            onSelect(e) {
+                this.image = e.target.files[0]
+                this.imageUrl = URL.createObjectURL(e.target.files[0])
+            },
         },
         computed: {
             isCreateQuest() {
@@ -334,6 +377,14 @@
                         response.data.penalty_1 = response.data.penalty_1.substr(0, 5);
                         response.data.penalty_2 = response.data.penalty_2.substr(0, 5);
                         response.data.duration = response.data.duration.substr(0, 5);
+                        let preview = response.data.preview
+                        response.data.preview = undefined
+                        console.log(preview)
+                        if (preview) {
+                            this.imageUrl = preview
+                        } else {
+                            this.imageUrl = "/static/default_quest_image.png"
+                        }
                         this.quest = response.data
                     })
                     .catch((error) => {
@@ -343,3 +394,9 @@
         }
     }
 </script>
+
+<style>
+    .clickable {
+        cursor: pointer;
+    }
+</style>
