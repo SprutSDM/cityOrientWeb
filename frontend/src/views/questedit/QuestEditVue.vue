@@ -266,7 +266,6 @@
             quest: {
                 title: '',
                 place: '',
-                preview: null,
                 date: new Date().toISOString().substr(0, 10),
                 start_time: null,
                 duration: null,
@@ -292,7 +291,7 @@
             },
             savePreview(doOnSuccess) {
                 if (this.image === null) {
-                    doOnSuccess()
+                    doOnSuccess(false)
                     return
                 }
                 const questId = this.$route.params.id
@@ -300,9 +299,10 @@
                 formData.append("preview", this.image)
                 httpClient.patch(`/quests/${questId}/`, formData, {
                     headers: {'Content-Type': `multipart/form-data;`}
-                }).then(() => {
+                }).then((response) => {
                     console.log('preview has been saved!')
-                    doOnSuccess()
+                    this.updateUiFromResponse(response)
+                    doOnSuccess(true)
                 }).catch(() => {
                     console.log("preview hasn't saved")
                 })
@@ -317,7 +317,11 @@
                     httpClient.put(`/quests/${questId}/`, questForSave)
                         .then((response) => {
                             console.log(`save quest by Id: response ${response}`)
-                            this.savePreview(() => {})
+                            this.savePreview((fetched) => {
+                                if (!fetched) {
+                                    this.updateUiFromResponse(response)
+                                }
+                            })
                         })
                         .catch((error) => {
                             console.log(`save quest by Id: error ${error}`)
@@ -326,8 +330,11 @@
                     httpClient.post(`/quests/`, questForSave)
                         .then((response) => {
                             console.log(`save quest: response ${response}`);
-                            this.savePreview(() => {
-                                this.$router.push({name: 'editQuest', params: {id: response.data.id}})
+                            this.$router.push({name: 'editQuest', params: {id: response.data.id}})
+                            this.savePreview((fetched) => {
+                                if (!fetched) {
+                                    this.updateUiFromResponse(response)
+                                }
                             })
                         })
                         .catch((error) => {
@@ -359,6 +366,22 @@
                 this.image = e.target.files[0]
                 this.imageUrl = URL.createObjectURL(e.target.files[0])
             },
+            updateUiFromResponse(response) {
+                const start_time = new Date(response.data.start_time);
+                response.data.start_time = start_time.toISOString().substr(11, 5);
+                response.data.date = start_time.toISOString().substr(0, 10);
+                response.data.penalty_1 = response.data.penalty_1.substr(0, 5);
+                response.data.penalty_2 = response.data.penalty_2.substr(0, 5);
+                response.data.duration = response.data.duration.substr(0, 5);
+                let preview = response.data.preview
+                response.data.preview = undefined
+                console.log(preview)
+                if (preview) {
+                    this.imageUrl = preview
+                }
+                this.quest = response.data
+                this.image = undefined
+            }
         },
         computed: {
             isCreateQuest() {
@@ -371,21 +394,7 @@
                 console.log("request quest " + questId);
                 httpClient.get(`/quests/${questId}/`)
                     .then((response) => {
-                        const start_time = new Date(response.data.start_time);
-                        response.data.start_time = start_time.toISOString().substr(11, 5);
-                        response.data.date = start_time.toISOString().substr(0, 10);
-                        response.data.penalty_1 = response.data.penalty_1.substr(0, 5);
-                        response.data.penalty_2 = response.data.penalty_2.substr(0, 5);
-                        response.data.duration = response.data.duration.substr(0, 5);
-                        let preview = response.data.preview
-                        response.data.preview = undefined
-                        console.log(preview)
-                        if (preview) {
-                            this.imageUrl = preview
-                        } else {
-                            this.imageUrl = "/static/default_quest_image.png"
-                        }
-                        this.quest = response.data
+                        this.updateUiFromResponse(response)
                     })
                     .catch((error) => {
                         console.log("Catch error when get quest: " + JSON.stringify(error))

@@ -31,6 +31,8 @@ class QuestDetailSerializer(serializers.ModelSerializer):
         tasks = validated_data.pop('tasks')
         quest_instance = Quest.objects.create(**validated_data)
         self.recreate_tasks(quest_instance, tasks=tasks)
+        print(quest_instance.preview)
+        print(quest_instance.preview.url)
         return quest_instance
 
     def update(self, instance, validated_data):
@@ -40,21 +42,11 @@ class QuestDetailSerializer(serializers.ModelSerializer):
             self.recreate_tasks(instance, tasks=tasks)
         return super().update(instance, validated_data)
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['preview'] = MEDIA_URL + data['preview']
-        return data
-
 
 class QuestListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
         fields = ['id', 'title', 'place', 'start_time', 'duration', 'preview']
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['preview'] = MEDIA_URL + data['preview']
-        return data
 
 
 class TaskStatisticListSerializer(serializers.ModelSerializer):

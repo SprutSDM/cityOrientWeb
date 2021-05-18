@@ -22,7 +22,6 @@ services:
     volumes:
       - ./backend/src:/src
       - media_volume:/media
-      - static_volume:/static
     networks:
       - nginx_network
       - db_network
@@ -50,8 +49,8 @@ services:
       - 8081:8081
     volumes:
       - ./nginx/local:/etc/nginx/conf.d
+      - ./backend/static:/static
       - media_volume:/media
-      - static_volume:/static
     depends_on:
       - backend
     networks:
@@ -66,4 +65,3 @@ networks:
 volumes:
   city_orient_db_volume:
   media_volume:
-  static_volume:

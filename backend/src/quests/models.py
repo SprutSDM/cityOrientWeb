@@ -1,14 +1,17 @@
 from django.db import models
 
+from quests.fields import DefaultStaticImageField
 from users.models import User
 
 
 class Quest(models.Model):
+    DEFAULT_PREVIEW_PATH = "/quest_previews/default.png"
+
     title = models.CharField(max_length=200)
     place = models.CharField(max_length=200)
     start_time = models.DateTimeField()
     duration = models.TimeField()
-    preview = models.ImageField(upload_to='quest_previews', null=True)
+    preview = DefaultStaticImageField(upload_to='quest_previews', default_image_path=DEFAULT_PREVIEW_PATH, blank=True)
     welcome_text = models.CharField(max_length=1000)
     farewell_text = models.CharField(max_length=1000)
     penalty_1 = models.TimeField()
