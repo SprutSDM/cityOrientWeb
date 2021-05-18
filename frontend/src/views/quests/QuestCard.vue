@@ -1,11 +1,9 @@
 <template>
     <v-card class="elevation-8">
-        <v-img src="http://scipy-lectures.org/_images/face.png"
-               class="white--text align-end"
-               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0.5)"
-               :aspect-ratio="16/9">
-            <v-card-title v-text="quest.title"/>
+        <v-img :src="quest.preview" :aspect-ratio="16/9">
         </v-img>
+                    <v-card-title v-text="quest.title"/>
+
         <v-card-text>
             <v-list>
                 <v-list-item>
