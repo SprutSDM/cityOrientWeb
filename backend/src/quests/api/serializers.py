@@ -2,7 +2,7 @@ from django.conf.global_settings import MEDIA_URL
 from rest_framework import serializers
 
 from quests.models import Quest, Task, Answer, TeamStatistic, TaskStatistic
-from users.api.serializerts import TeamSerializer
+from users.api.serializers import TeamSerializer
 
 
 class TaskDetailSerializer(serializers.ModelSerializer):

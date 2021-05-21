@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 
 from users.api.permissions import IsSuperuser
-from users.api.serializerts import AdminSerializer, TeamSerializer
+from users.api.serializers import AdminSerializer, TeamSerializer
 from users.models import User
 
 

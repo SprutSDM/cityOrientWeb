@@ -10,7 +10,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, username: str, password: str):
         if username.lower().startswith("team"):
             ValueError("The username field must not starts with 'team'.")
-        user = self.model(username=username)
+        user = self.model(username=username, profile_name=username)
         user.set_password(password)
         user.is_staff = True
         user.is_superuser = True
@@ -19,17 +19,18 @@ class UserManager(BaseUserManager):
     def create_admin(self, username: str, password: str):
         if username.lower().startswith("team"):
             ValueError("The username field must not starts with 'team'.")
-        user = self.model(username=username)
+        user = self.model(username=username, profile_name=username)
         user.set_password(password)
         user.is_staff = True
         user.save()
         return user
 
     def create_team(self, password: str):
-        user = self.model(username="team")
+        user = self.model(username="team", profile_name="team")
         user.set_password(password)
         user.save()
         user.username = f"team{user.id}"
+        user.profile_name = user.username
         user.save()
         return user
 
@@ -46,6 +47,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages={
             'unique': "A user with that username already exists.",
         },
+    )
+    profile_name = models.CharField(
+        max_length=150,
+        default="",
+        help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
     )
     is_superuser = models.BooleanField(
         'is_superuser',

@@ -7,7 +7,7 @@ from users.models import User
 class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password']
+        fields = ['id', 'username', 'password', 'profile_name']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -24,7 +24,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'quest']
+        fields = ['id', 'username', 'password', 'profile_name', 'quest']
         read_only_fields = ['username', 'quest']
         extra_kwargs = {
             'password': {'write_only': True}
