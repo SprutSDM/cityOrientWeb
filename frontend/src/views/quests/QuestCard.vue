@@ -20,7 +20,7 @@
                         <v-icon>mdi-map-marker-multiple</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>{{ quest.place }}</v-list-item-title>
+                        <v-list-item-title>{{ quest.count_of_cp }}</v-list-item-title>
                         <v-list-item-subtitle>Количество КП</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>

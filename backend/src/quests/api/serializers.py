@@ -44,10 +44,14 @@ class QuestDetailSerializer(serializers.ModelSerializer):
 
 
 class QuestListSerializer(serializers.ModelSerializer):
+    count_of_cp = serializers.SerializerMethodField()
+
     class Meta:
         model = Quest
-        fields = ['id', 'title', 'place', 'start_time', 'duration', 'preview']
+        fields = ['id', 'title', 'place', 'count_of_cp', 'start_time', 'duration', 'preview']
 
+    def get_count_of_cp(self, obj):
+        return obj.tasks.count()
 
 class TaskStatisticListSerializer(serializers.ModelSerializer):
     class Meta:

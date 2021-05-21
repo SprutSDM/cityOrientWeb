@@ -271,6 +271,7 @@
                 duration: null,
                 welcome_text: '',
                 farewell_text: '',
+                count_of_cp: 0,
                 penalty_1: '00:05',
                 penalty_2: '00:15',
                 tasks: []
