@@ -1,6 +1,6 @@
 <template>
     <v-row align="start" justify="center">
-        <v-col cols="12" sm="8" md="6" lg="5" xl="4">
+        <v-col cols="12" sm="8" md="8" lg="8" xl="6">
             <v-card>
                 <v-toolbar color="primary" dark flat>
                     <v-toolbar-title>Команды</v-toolbar-title>
@@ -103,6 +103,11 @@
                         text: 'Логин',
                         sortable: false,
                         value: 'username',
+                    },
+                    {
+                        text: 'Название команды',
+                        sortable: false,
+                        value: 'profile_name'
                     },
                     {
                         text: "Текущий квест",
