@@ -168,9 +168,10 @@
             },
             saveTeam() {
                 if (this.editedTeamId > -1) {
-                    httpClient.put(`/users/teams/${this.editedTeamId}`, {password: this.password})
+                    console.log("update team " + this.editedTeamId)
+                    httpClient.patch(`/users/teams/${this.editedTeamId}/`, {password: this.password})
                         .then((response) => {
-                            console.log("update team " + response);
+                            console.log("update team " + JSON.stringify(response));
                             this.loadTeams()
                         })
                         .catch((error) => {
