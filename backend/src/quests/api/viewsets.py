@@ -42,7 +42,9 @@ class TaskStatisticViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def complete(self, request, pk=None):
-        task_statistic = self.get_object()
+        task = Task.objects.get(id=pk)
+        team_statistic = TeamStatistic.objects.get(team=request.user)
+        task_statistic = team_statistic.tasks_statistic.get(task=task)
         date = datetime.now(tz=pytz.utc) + timedelta(hours=3) - task_statistic.team_statistic.quest.start_time
         task_statistic.lead_time = (datetime.min + date).time()
         task_statistic.save()
@@ -51,7 +53,9 @@ class TaskStatisticViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def use_tip(self, request, pk=None, tip_number=None):
-        task_statistic = self.get_object()
+        task = Task.objects.get(id=pk)
+        team_statistic = TeamStatistic.objects.get(team=request.user)
+        task_statistic = team_statistic.tasks_statistic.get(task=task)
         if tip_number == 0:
             task_statistic.tip_1_used = True
         elif tip_number == 1:
