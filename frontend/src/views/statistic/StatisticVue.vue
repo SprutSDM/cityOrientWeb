@@ -89,7 +89,7 @@
                     .then((response) => {
                         response.data['teams_statistic'].forEach((team_statistic) => {
                             let statistic = {};
-                            statistic.team = team_statistic.team.username;
+                            statistic.team = team_statistic.team.profile_name;
                             team_statistic['tasks_statistic'].forEach((task_statistic) => {
                                 const tip_1_str = this.tip_str(task_statistic['tip_1_used']);
                                 const tip_2_str = this.tip_str(task_statistic['tip_2_used']);
